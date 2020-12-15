@@ -1,6 +1,12 @@
 # Radar Chart
 
-![enter image description here](https://vegibit.com/wp-content/uploads/2015/05/Introduction-to-the-d3-js-library.png)
+![Status](https://img.shields.io/badge/build-passing-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.0-lightgrey)
+![Size](https://img.shields.io/badge/size-152KB-green)
+![Chart](https://img.shields.io/badge/chart-d3-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+![D3](https://vegibit.com/wp-content/uploads/2015/05/Introduction-to-the-d3-js-library.png)
 
 ## Description
 
@@ -68,7 +74,7 @@ const  data = [{
         {axis:  'Information Technology', value:  8},
         {axis:  'Administration', value:  5},
         {axis:  'Administration', value:  2},
-	{axis:  'Administration', value:  5}
+        {axis:  'Administration', value:  5}
     ],
     color:  '#26AF32'
 }];
