@@ -121,8 +121,8 @@ yarn add d3-node
 const SVGOptions = {
     selector: ".radar-chart-node", // select class of container to create D3-canvas
     svgStyle: `
-	.arc text {font: 10px sans-serif; text-anchor: middle;}
-	.arc path {stroke: #fff;}
+        .arc text {font: 10px sans-serif; text-anchor: middle;}
+        .arc path {stroke: #fff;}
     `,
     container: `<div class="radar-chart-node"></div>`, // DOM contain the visualization result
     radius: 150
