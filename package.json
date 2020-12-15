@@ -1,0 +1,32 @@
+{
+  "name": "radarchart-node",
+  "version": "1.0.0",
+  "description": "Radar chart generator for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./test",
+    "test": "node ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quannh-netalik/radarchart-node.git"
+  },
+  "keywords": [
+    "d3",
+    "radar",
+    "chart",
+    "node"
+  ],
+  "author": "Nguyen Huu Quan (quannh.netalik)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quannh-netalik/radarchart-node/issues"
+  },
+  "homepage": "https://github.com/quannh-netalik/radarchart-node#readme",
+  "dependencies": {
+    "@types/puppeteer": "^5.4.2",
+    "d3-node": "^1.1.1",
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {}
+}
