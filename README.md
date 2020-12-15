@@ -13,13 +13,13 @@ Using NPM or YARN to install the package
 
 ```bash
 
-npm install d3-radarchart
+npm install radarchart-node
 
 ```
 
 ```bash
 
-yarn add d3-radarchart
+yarn add radarchart-node
 
 ```
   
@@ -27,7 +27,7 @@ yarn add d3-radarchart
 
 ```js
 
-import { RadarChart } from 'd3-radarchart';
+import { RadarChart } from 'radarchart-node';
 
 const radarChart =  RadarChart(data, RadarOptions);
 
@@ -59,18 +59,18 @@ npm run start
 
 ```javascript
 const  data = [{
-   name:  'Allocated budget',
-	axes: [
-		{axis:  'Sales', value:  4},
-		{axis:  'Marketing', value:  5},
-		{axis:  'Development', value:  2},
-		{axis:  'Customer Support', value:  1},
-		{axis:  'Information Technology', value:  8},
-		{axis:  'Administration', value:  5},
-		{axis:  'Administration', value:  2},
-		{axis:  'Administration', value:  5}
-		],
-	color:  '#26AF32'
+    name:  'Allocated budget',
+    axes: [
+        {axis:  'Sales', value:  4},
+        {axis:  'Marketing', value:  5},
+        {axis:  'Development', value:  2},
+        {axis:  'Customer Support', value:  1},
+        {axis:  'Information Technology', value:  8},
+        {axis:  'Administration', value:  5},
+        {axis:  'Administration', value:  2},
+	{axis:  'Administration', value:  5}
+    ],
+    color:  '#26AF32'
 }];
 ```
 
@@ -84,20 +84,32 @@ Each object data consists of the name, values array, and color.
 ```javascript
 const  d3 =  require('d3-node')().d3;
 const  cfg = {
-	w:  450, // Width of the circle
-	h:  350, // Height of the circle
-	margin: {
-	top:  10, right:  10, bottom:  10, left:  10
-	}, // The margins of the SVG
-	levels:  10, // How many levels or inner circles should there be drawn
-	maxValue:  10, // What is the value that the biggest circle will represent
-	strokeWidth:  1, // The width of the stroke around each blob
-	roundStrokes: false, // If true the area and stroke will follow a round path (cardinal-closed)
-	color:  d3.scaleOrdinal(d3.schemeCategory10), // Color function
-	format:  '.0f', // Format default is .0f (%,...)
-	unit:  '', // Unit value (ex: $)
-	legend: false // Format: { title: string, translateX: number, translateY: number }
+    w:  450, // Width of the circle
+    h:  350, // Height of the circle
+    margin: {
+        top:  10, right:  10, bottom:  10, left:  10
+    }, // The margins of the SVG
+    levels:  10, // How many levels or inner circles should there be drawn
+    maxValue:  10, // What is the value that the biggest circle will represent
+    strokeWidth:  1, // The width of the stroke around each blob
+    roundStrokes: false, // If true the area and stroke will follow a round path (cardinal-closed)
+    color:  d3.scaleOrdinal(d3.schemeCategory10), // Color function
+    format:  '.0f', // Format default is .0f (%,...)
+    unit:  '', // Unit value (ex: $...)
+    legend: false // Format: { title: string, translateX: number, translateY: number }
 };
+```
+
+!Note: Make sure you have install `d3-node` before running example
+
+```bash
+
+npm install d3-node
+
+# or
+
+yarn add d3-node
+
 ```
 
 #### SVGRadarOptions (Optional)
@@ -107,13 +119,13 @@ const  cfg = {
 
 ```javascript
 const SVGOptions = {
-	selector: ".radar-chart-node", // select class of container to create D3-canvas
-	svgStyle: `
-		.arc text {font: 10px sans-serif; text-anchor: middle;}
-		.arc path {stroke: #fff;}
-	`,
-	container: `<div class="radar-chart-node"></div>`, // DOM contain the visualization result.
-	radius: 150
+    selector: ".radar-chart-node", // select class of container to create D3-canvas
+    svgStyle: `
+	.arc text {font: 10px sans-serif; text-anchor: middle;}
+	.arc path {stroke: #fff;}
+    `,
+    container: `<div class="radar-chart-node"></div>`, // DOM contain the visualization result
+    radius: 150
 }
 ```
 
@@ -126,16 +138,16 @@ const SVGOptions = {
 
 ```javascript
 // import module
-import { RadarChart, generateRadarChart } from 'd3-radarchart'
+import { RadarChart, generateRadarChart } from 'radarchart-node'
 
 const radarChartD3 = RadarChart(...) // object d3
 const type = 'html' // default is 'svg'
 
 // object by default
 const RadarGenerateOptions = {
-	write:  false, // set true if want to write as a file
-	dest:  './test',
-	fileName:  'radar-chart'
+    write:  false, // set true if want to write as a file
+    dest:  './test',
+    fileName:  'radar-chart'
 }
 
 // generate chart
@@ -151,14 +163,14 @@ console.log(generated) // -----> <!html>....<html>
 
 ```javascript
 // import module
-import { generateRadarImage} from 'd3-radarchart'
+import { generateRadarImage} from 'radarchart-node'
 
 const type = 'jpeg' // default is 'png'
 
 // object by default
 const RadarGenerateOptions = {
-	dest:  './test',
-	fileName:  'radar-chart'
+    dest:  './test',
+    fileName:  'radar-chart'
 }
 
 // execute function to generate image
