@@ -1,11 +1,12 @@
-const { FILE } = require('dns');
+'use strict';
+
 const fs = require('fs');
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer');
 
-const FILE_DESTINATION = './test'
-const FILE_NAME = 'radar-chart'
+const FILE_DESTINATION = './test';
+const FILE_NAME = 'radar-chart';
 
-const getFilePath = (dest, fileName, type) => dest + '/' + fileName + '.' + type
+const getFilePath = (dest, fileName, type) => dest + '/' + fileName + '.' + type;
 
 exports.generateRadarChart = (d3n, type = 'svg', {
     write: _write,
@@ -20,13 +21,13 @@ exports.generateRadarChart = (d3n, type = 'svg', {
     const data = type === 'html' ? html : svgString;
 
     // get file path
-    const file = getFilePath(_dest, _fileName, type)
+    const file = getFilePath(_dest, _fileName, type);
     if (_write) fs.writeFile(`${file}`, data, function () {
-        console.log(`=======>> Exported "${file}", open in a web browser`)
-    })
+        console.log(`=======>> Exported "${file}", open in a web browser`);
+    });
 
     return data;
-}
+};
 
 exports.generateRadarImage = (d3n, type = 'png', {
     width: _width,
@@ -35,7 +36,7 @@ exports.generateRadarImage = (d3n, type = 'png', {
     dest: _dest = FILE_DESTINATION,
     fileName: _fileName = FILE_NAME
 } = { }) => {
-    const viewport = _width && _height ? { _width, _height } : false
+    const viewport = _width && _height ? { _width, _height } : false;
     const html = d3n.html();
     
     const screenShotOptions = {
@@ -43,7 +44,7 @@ exports.generateRadarImage = (d3n, type = 'png', {
         path: getFilePath(_dest, _fileName, type),
         _quality,
         type
-    }
+    };
 
     return puppeteer.launch()
         .then((browser) => {
@@ -59,5 +60,5 @@ exports.generateRadarImage = (d3n, type = 'png', {
                         .catch(console.error);
                 })
         })
-        .catch(console.error)
-}
+        .catch(console.error);
+};

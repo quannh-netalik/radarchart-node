@@ -1,5 +1,7 @@
+'use strict';
+
 const D3Node = require('d3-node');
-const { generateRadarChart, generateRadarImage } = require('./utils')
+const { generateRadarChart, generateRadarImage } = require('./utils');
 
 function RadarChart (data, options, {
     selector: _selector = ".radar-chart-node",
@@ -30,7 +32,7 @@ function RadarChart (data, options, {
         .append('g')
         .attr('transform', `translate( ${radius} , ${radius} )`);
 
-        //Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
+        // Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
     const wrap = (text, width) => {
         text.each(function() {
             var text = d3.select(this),
@@ -43,24 +45,24 @@ function RadarChart (data, options, {
                 tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
 
             while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            // if (tspan.node().getComputedTextLength() > width) {
-                    // line.pop();
-                    // tspan.text(line.join(" "));
-                    // line = [word];
-                    // tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-            // }
+                line.push(word);
+                tspan.text(line.join(" "));
+                if (tspan.node().getComputedTextLength > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                }
             }
         });
-    }//wrap
+    };//wrap
 
     const cfg = {
         w: 450,				    // Width of the circle
         h: 350,				    // Height of the circle
         margin: {
-            top: 10, right: 10, bottom: 10, left: 10
-        },                      // The margins of the SVG
+            top: 50, right: 80, bottom: 50, left: 80
+        },                      // The margins of the SVG (or number for all side margin)
         levels: 10,			    // How many levels or inner circles should there be drawn
         maxValue: 10, 			// What is the value that the biggest circle will represent
         labelFactor: 1.25, 	    // How much farther than the radius of the outer circle should the labels be placed
@@ -81,10 +83,25 @@ function RadarChart (data, options, {
             if('undefined' !== typeof options[i]) { 
                 cfg[i] = options[i]; 
             }
-        }//for i
-    }//if
+        }// for i
+    };// if
 
-    //If the supplied maxValue is smaller than the actual one, replace by the max in the data
+    // if options.margin is a number
+    if (typeof options.margin === 'number') {
+        cfg.margin = {
+            top: options.margin,
+            right: options.margin,
+            bottom: options.margin,
+            left: options.margin
+        }
+    }; // if
+
+    // if options.color
+    if (options.color) {
+        cfg.color = d3.scaleOrdinal().range(options.color);
+    }; // if
+
+    // If the supplied maxValue is smaller than the actual one, replace by the max in the data
     // var maxValue = max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
     let maxValue = 0;
     for (let j=0; j < data.length; j++) {
@@ -92,16 +109,16 @@ function RadarChart (data, options, {
             data[j].axes[i]['id'] = data[j].name;
             if (data[j].axes[i]['value'] > maxValue) {
                 maxValue = data[j].axes[i]['value'];
-            }
-        }
-    }
+            };
+        };
+    };
     maxValue = Math.max(cfg.maxValue, maxValue);
 
     const allAxis = data[0].axes.map((i, j) => i.axis),	//Names of each axis
         total = allAxis.length,					//The number of different axes
         Format = d3.format(cfg.format),			 	//Formatting
     angleSlice = Math.PI * 2 / total;		//The width in radians of each "slice"
-    radius = Math.min(cfg.w/2, cfg.h/2) 	//Radius of the outermost circle
+    radius = Math.min(cfg.w/2, cfg.h/2); 	//Radius of the outermost circle
 
 
     //Scale for the radius
@@ -229,22 +246,22 @@ function RadarChart (data, options, {
         .attr("d", d => radarLine(d.axes))
         .style("fill", (d,i) => cfg.color(i))
         .style("fill-opacity", cfg.opacityArea)
-        .on('mouseover', () => {
-            //Dim all blobs
-            parent.selectAll(".radarArea")
-                .transition().duration(200)
-                .style("fill-opacity", 0.1);
-            //Bring back the hovered over blob
-            d3.select(this)
-                .transition().duration(200)
-                .style("fill-opacity", 0.7);
-        })
-        .on('mouseout', () => {
-            //Bring back all blobs
-            parent.selectAll(".radarArea")
-                .transition().duration(200)
-                .style("fill-opacity", cfg.opacityArea);
-        });
+		.on('mouseover', function(d, i) {
+			//Dim all blobs
+			parent.selectAll(".radarArea")
+				.transition().duration(200)
+				.style("fill-opacity", 0.1);
+			//Bring back the hovered over blob
+			d3.select(this)
+				.transition().duration(200)
+				.style("fill-opacity", 0.7);
+		})
+		.on('mouseout', () => {
+			//Bring back all blobs
+			parent.selectAll(".radarArea")
+				.transition().duration(200)
+				.style("fill-opacity", cfg.opacityArea);
+		});
 
     //Create the outlines
     blobWrapper.append("path")
@@ -287,7 +304,28 @@ function RadarChart (data, options, {
         .attr("cy", (d,i) => rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2))
         .style("fill", "none")
         .style("pointer-events", "all")
+		.on("mouseover", function(d,i) {
+			tooltip
+				.attr('x', this.cx.baseVal.value - 10)
+				.attr('y', this.cy.baseVal.value - 10)
+				.transition()
+				.style('display', 'block')
+				.text(Format(d.value) + cfg.unit);
+		})
+		.on("mouseout", function(){
+			tooltip.transition()
+				.style('display', 'none').text('');
+		});
 
+	const tooltip = g.append("text")
+		.attr("class", "tooltip")
+		.attr('x', 0)
+		.attr('y', 0)
+		.style("font-size", "12px")
+		.style('display', 'none')
+		.attr("text-anchor", "middle")
+        .attr("dy", "0.35em");
+        
     if (cfg.legend !== false && typeof cfg.legend === "object") {
         let legendZone = svg.append('g');
         let names = data.map(el => el.name);
@@ -329,6 +367,13 @@ function RadarChart (data, options, {
     }
 
     return d3n;
-}
+};
 
-module.exports = { RadarChart, generateRadarChart, generateRadarImage } 
+module.exports = {
+    // main function 
+    RadarChart, 
+
+    // prototype
+    generateRadarChart, 
+    generateRadarImage 
+};

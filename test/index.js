@@ -1,4 +1,5 @@
-const d3 = require('d3-node')().d3;
+'use strict';
+
 const { RadarChart, generateRadarChart, generateRadarImage} = require('../');
 
 const data = [{ 
@@ -13,25 +14,23 @@ const data = [{
         {axis: 'Administration', value: 2},
         {axis: 'Administration', value: 5}
     ],
-    color: '#26AF32'
+    color: '#0828f5'
 }];
 
 const radar = RadarChart(data, {
     w: 450,
     h: 350,
-    margin: {
-        top: 50, right: 50, bottom: 50, left: 50 
-    },
+    margin: 50,
     maxValue: 10,
     levels: 10,
     roundStrokes: false,
-    color: d3.scaleOrdinal().range(["#ff6600"]),
+    color: ["#0828f5"],
     legend: { title: 'Organization XYZ', translateX: 60, translateY: 0 }
-})
+});
 
 // create output files
-generateRadarChart(radar, 'html', { write: true, dest: './test' })
+generateRadarChart(radar, 'html', { write: true, dest: './test' });
 generateRadarImage(radar, 'png', {
     dest: './test'
-})
+});
 

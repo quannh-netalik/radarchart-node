@@ -1,5 +1,3 @@
-import D3Node from "d3-node";
-
 export interface Axes {
     axis: string;
     value: number;
@@ -8,7 +6,7 @@ export interface Axes {
 export interface Data {
     name: string;
     axes: Axes[];
-    color: string;
+    color?: string;
 }
 
 export interface RadarChartMargin {
@@ -27,7 +25,7 @@ export interface RadarChartLegend {
 export interface RadarOptions {
     w?: number;                     // Width of the circle
     h?: number;                     // Height of the circle
-    margin?: RadarChartMargin;      // The margins of the SVG
+    margin?: number | RadarChartMargin;      // The margins of the SVG
     levels: number;                 // How many levels or inner circles should there be drawn
     maxValue: number;               // What is the value that the biggest circle will represent
     labelFactor?: number;           // How much farther than the radius of the outer circle should the labels be placed
@@ -37,7 +35,7 @@ export interface RadarOptions {
     opacityCircles?: number;        // The opacity of the circles of each blob
     strokeWidth?: number;           // The width of the stroke around each blob
     roundStrokes?: boolean;         // If true the area and stroke will follow a round path (cardinal-closed)
-    color?: () => void;             // Color function
+    color?: string[];               // Array of color, process will have it own function
     format?: string;                // Format default is .0f (%,...)
     unit?: string;                  // Unit value (ex: $)
     legend?: RadarChartLegend;      // Format: { title: string, translateX: number, translateY: number }
@@ -67,5 +65,5 @@ export interface RadarImageOptions {
 }
 
 export function RadarChart(data: Data[], options: RadarOptions, svgOptions?: SVGRadarOptions): any;
-export function generateRadarChart(d3n: any, type?: RadarGenerateType, options?: RadarGenerateOptions): string
+export function generateRadarChart(d3n: any, type?: RadarGenerateType, options?: RadarGenerateOptions): string;
 export function generateRadarImage(d3n: any, type?: RadarChartImage, options?: RadarImageOptions): any;

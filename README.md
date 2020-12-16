@@ -1,7 +1,7 @@
 # Radar Chart
 
 ![Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.2-lightgrey)
+![Version](https://img.shields.io/badge/version-1.0.3-lightgrey)
 ![Size](https://img.shields.io/badge/size-152KB-green)
 ![Chart](https://img.shields.io/badge/chart-d3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -76,7 +76,7 @@ const  data = [{
         {axis:  'Administration', value:  2},
         {axis:  'Administration', value:  5}
     ],
-    color:  '#26AF32'
+    color:  '#0828f5'
 }];
 ```
 
@@ -88,34 +88,21 @@ Each object data consists of the name, values array, and color.
 - Example option structure  `RadarOptions`
 
 ```javascript
-const  d3 =  require('d3-node')().d3;
 const  cfg = {
-    w:  450, // Width of the circle
-    h:  350, // Height of the circle
+    w:  450,             // Width of the circle
+    h:  350,             // Height of the circle
     margin: {
-        top:  10, right:  10, bottom:  10, left:  10
-    }, // The margins of the SVG
-    levels:  10, // How many levels or inner circles should there be drawn
-    maxValue:  10, // What is the value that the biggest circle will represent
-    strokeWidth:  1, // The width of the stroke around each blob
+        top:  50, right:  80, bottom:  50, left:  80
+    },                   // The margins of the SVG (or number for all side margin)
+    levels:  10,         // How many levels or inner circles should there be drawn
+    maxValue:  10,       // What is the value that the biggest circle will represent
+    strokeWidth:  1,     // The width of the stroke around each blob
     roundStrokes: false, // If true the area and stroke will follow a round path (cardinal-closed)
-    color:  d3.scaleOrdinal(d3.schemeCategory10), // Color function
-    format:  '.0f', // Format default is .0f (%,...)
-    unit:  '', // Unit value (ex: $...)
-    legend: false // Format: { title: string, translateX: number, translateY: number }
+    color:  ['#0828f5'], // Color ranged
+    format:  '.0f',      // Format default is .0f (%,...)
+    unit:  '',           // Unit value (ex: $...)
+    legend: false        // Format: { title: string, translateX: number, translateY: number }
 };
-```
-
-!Note: Make sure you have install `d3-node` before running example
-
-```bash
-
-npm install d3-node
-
-# or
-
-yarn add d3-node
-
 ```
 
 #### SVGRadarOptions (Optional)
@@ -169,7 +156,7 @@ console.log(generated) // -----> <!html>....<html>
 
 ```javascript
 // import module
-import { generateRadarImage} from 'radarchart-node'
+import { generateRadarImage } from 'radarchart-node'
 
 const type = 'jpeg' // default is 'png'
 

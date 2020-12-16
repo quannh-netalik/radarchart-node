@@ -15,7 +15,9 @@
     "d3",
     "radar",
     "chart",
-    "node"
+    "node",
+    "radar-chart",
+    "spider-chart"
   ],
   "author": "Nguyen Huu Quan (quannh.netalik)",
   "license": "MIT",
