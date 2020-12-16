@@ -1,6 +1,6 @@
 {
   "name": "radarchart-node",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Radar chart generator for Node.js",
   "main": "index.js",
   "scripts": {
