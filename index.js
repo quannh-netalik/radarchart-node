@@ -7,7 +7,7 @@ function RadarChart (data, options, {
     selector: _selector = ".radar-chart-node",
     svgStyle: _svgStyle = `
         .arc text {font: 10px sans-serif; text-anchor: middle;}
-        .arc path {stroke: #fff;}
+        .arc path {stroke: #000;}
     `,
     container: _container = `<div style="display: flex; justify-content: center; width: 100%; height: 100%;align-items:center;" class="radar-chart-node"></div>`,
     radius: _radius = 150
@@ -75,7 +75,8 @@ function RadarChart (data, options, {
         color: d3.scaleOrdinal(d3.schemeCategory10),	// Color function
         format: '.0f',          // Format default is .0f (%,...)
         unit: '',               // Unit value (ex: $)
-        legend: false           // Format: { title: string, translateX: number, translateY: number }
+        legend: false,           // Format: { title: string, translateX: number, translateY: number },
+        fontAxis: 16            // Font-axis
     };
     // mapping key from options to cfg
     if('undefined' !== typeof options){
@@ -202,16 +203,16 @@ function RadarChart (data, options, {
     axis.append("line")
         .attr("x1", 0)
         .attr("y1", 0)
-        .attr("x2", (d, i) => rScale(maxValue *1.1) * Math.cos(angleSlice * i - Math.PI/2))
-        .attr("y2", (d, i) => rScale(maxValue* 1.1) * Math.sin(angleSlice * i - Math.PI/2))
+        .attr("x2", (d, i) => rScale((maxValue - 1) * 1.1) * Math.cos(angleSlice * i - Math.PI/2))
+        .attr("y2", (d, i) => rScale((maxValue - 1) * 1.1) * Math.sin(angleSlice * i - Math.PI/2))
         .attr("class", "line")
-        .style("stroke", "white")
-        .style("stroke-width", "2px");
+        .style("stroke", "rgb(130 127 127)")
+        .style("stroke-width", "1px");
 
     //Append the labels at each axis
     axis.append("text")
         .attr("class", "legend")
-        .style("font-size", "11px")
+        .style("font-size", "17px")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .attr("x", (d,i) => rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice * i - Math.PI/2))
@@ -346,24 +347,24 @@ function RadarChart (data, options, {
             .attr('transform', `translate(${cfg.legend.translateX},${cfg.legend.translateY + 20})`);
         // Create rectangles markers
         legend.selectAll('rect')
-        .data(names)
-        .enter()
-        .append("rect")
-        .attr("x", cfg.w - 65)
-        .attr("y", (d,i) => i * 20)
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("fill", (d,i) => cfg.color(i));
+            .data(names)
+            .enter()
+            .append("rect")
+            .attr("x", cfg.w - 65)
+            .attr("y", (d,i) => i * 20)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", (d,i) => cfg.color(i));
         // Create labels
         legend.selectAll('text')
-        .data(names)
-        .enter()
-        .append("text")
-        .attr("x", cfg.w - 52)
-        .attr("y", (d,i) => i * 20 + 9)
-        .attr("font-size", "11px")
-        .attr("fill", "#737373")
-        .text(d => d);
+            .data(names)
+            .enter()
+            .append("text")
+            .attr("x", cfg.w - 52)
+            .attr("y", (d,i) => i * 20 + 9)
+            .attr("font-size", `${cfg.fontAxis}px`)
+            .attr("fill", "#737373")
+            .text(d => d);
     }
 
     return d3n;

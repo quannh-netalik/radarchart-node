@@ -38,7 +38,8 @@ export interface RadarOptions {
     color?: string[];               // Array of color, process will have it own function
     format?: string;                // Format default is .0f (%,...)
     unit?: string;                  // Unit value (ex: $)
-    legend?: RadarChartLegend;      // Format: { title: string, translateX: number, translateY: number }
+    legend?: RadarChartLegend;      // Format: { title: string, translateX: number, translateY: number }m
+    fontAxis?: number;
 }
 
 export interface SVGRadarOptions {
