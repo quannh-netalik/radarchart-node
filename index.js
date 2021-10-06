@@ -275,7 +275,11 @@ function RadarChart(data, options, {
         .attr("class", "radarStroke")
         .attr("d", function (d, i) { return radarLine(d.axes); })
         .style("stroke-width", cfg.strokeWidth + "px")
-        .style("stroke", (d, i) => cfg.color(i))
+        .style('stroke', (d, i) => {
+          const cRVal = cfg.color(i)
+          d.axes.forEach((it) => (it.color = cRVal))
+          return cRVal
+        })
         .style("fill", "none")
         .style("filter", "url(#glow)");
 
@@ -288,7 +292,7 @@ function RadarChart(data, options, {
         .attr("r", cfg.dotRadius)
         .attr("cx", (d, i) => rScale(d.value) * Math.cos(angleSlice * i - Math.PI / 2))
         .attr("cy", (d, i) => rScale(d.value) * Math.sin(angleSlice * i - Math.PI / 2))
-        .style("fill", (d) => cfg.color(d.id))
+        .style("fill", (d) => cfg.color(d.color))
         .style("fill-opacity", 1);
 
     //-------------------------------------------------------
